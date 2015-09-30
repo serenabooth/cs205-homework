@@ -20,7 +20,6 @@ def sum_values_for_partitions(rdd):
 def draw_image(rdd):
     '''Given a (K, V) RDD with K = (I, J) and V = count,
     display an image of count at each I, J'''
-
     data = rdd.collect()
     I = np.array([d[0][0] for d in data])
     J = np.array([d[0][1] for d in data])
@@ -29,3 +28,4 @@ def draw_image(rdd):
     im[I, J] = np.log(C + 1)  # log intensity makes it easier to see levels
     plt.imshow(im, cmap=cm.gray)
     plt.show()
+
