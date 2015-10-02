@@ -14,10 +14,14 @@ input_marvel_data = sc.textFile("./source.csv")
 
 input_marvel_data = input_marvel_data.map(lambda row: (row.split(',"')[0],row.split(',"')[1]))
 
-reverse_marvel_data = input_marvel_data.map(lambda row: (row[1], [row[0]]))
-grouped_by_episode = reverse_marvel_data.reduceByKey(lambda x,y: x + y)
+reverse_marvel_data = input_marvel_data.map(lambda (K, V): (V,[K]))
 
-all_characters = grouped_by_episode.map(lambda row: tuple(row[1]))
-print all_characters.take(10)
+grouped_by_episode = reverse_marvel_data.reduceByKey(lambda x,y: [] + x + y )
+print grouped_by_episode.take(10)
+
+#all_characters = grouped_by_episode.flatMap(lambda (key,val): (val[1],val[2:]))
+#print all_characters.take(1)
+#print "\n"
+#print all_characters.take(2)
 
 #print input_marvel_data.collect()
